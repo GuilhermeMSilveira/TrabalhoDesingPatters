@@ -1,0 +1,50 @@
+# Documentação: Padrão Factory Method
+## Objetivo
+O objetivo do padrão Factory Method é fornecer uma interface para criar objetos em uma superclasse, permitindo que as subclasses decidam qual classe específica instanciar. Esse padrão oferece flexibilidade e simplificação do código, delegando a responsabilidade de criação a subclasses especializadas.
+
+No nosso sistema de estabelecimentos de comida, o Factory Method é usado para criar diferentes tipos de estabelecimentos (Hamburgueria, Pizzaria e Restaurante) de maneira centralizada e sem expor a lógica de criação ao cliente, facilitando a adição de novos tipos de estabelecimentos no futuro.
+
+## Componentes
+
+Estabelecimento (Classe Abstrata):
+
+Define a estrutura básica e os métodos que cada tipo de estabelecimento precisa ter.
+Cada Estabelecimento tem propriedades como nome e horario e um método mostrarDetalhes para exibir informações detalhadas.
+Subclasses de Estabelecimento:
+
+Cada subclasse implementa a interface da classe abstrata Estabelecimento, definindo propriedades e comportamentos específicos.
+Incluem:
+Hamburgueria: Para estabelecimentos especializados em hambúrgueres, com um método específico de exibição de detalhes.
+Pizzaria: Representa estabelecimentos que servem pizzas, personalizando mostrarDetalhes.
+Restaurante: Representa estabelecimentos diversos, com sua própria implementação de mostrarDetalhes.
+EstabelecimentoFactory:
+
+A classe EstabelecimentoFactory é a implementação central do padrão Factory Method.
+Ela contém o método criarEstabelecimento, que usa o parâmetro tipo para decidir qual subclasse de Estabelecimento será instanciada.
+O método criarEstabelecimento facilita a criação de objetos específicos sem que o cliente (arquivo principal) precise conhecer os detalhes de implementação de cada subclasse.
+
+## Benefícios do Factory Method no Projeto
+Flexibilidade: Permite adicionar novos tipos de estabelecimento (como uma cafeteria ou sorveteria) apenas criando uma nova subclasse de Estabelecimento e atualizando EstabelecimentoFactory.
+Desacoplamento: Mantém a lógica de criação e uso separadas, tornando o código mais modular e facilitando a manutenção e expansão.
+Simplicidade para o Cliente: O cliente usa a fábrica para criar objetos específicos sem saber como eles são criados, interagindo apenas com a interface comum.
+
+## Exemplo de Uso
+No arquivo main.ts, EstabelecimentoFactory é usado para criar instâncias de Hamburgueria, Pizzaria e Restaurante, com horários e nomes específicos:
+
+typescript
+
+import EstabelecimentoFactory from "./factories/EstabelecimentoFactory";
+
+// Cria uma hamburgueria e exibe os detalhes
+const hamburgueria = EstabelecimentoFactory.criarEstabelecimento("hamburgueria", "Big Burger", "10:00 - 22:00");
+console.log(hamburgueria.mostrarDetalhes());
+
+// Cria uma pizzaria e exibe os detalhes
+const pizzaria = EstabelecimentoFactory.criarEstabelecimento("pizzaria", "Pizzaria Itália", "11:00 - 23:00");
+console.log(pizzaria.mostrarDetalhes());
+
+// Cria um restaurante e exibe os detalhes
+const restaurante = EstabelecimentoFactory.criarEstabelecimento("restaurante", "Sabor Brasil", "12:00 - 20:00");
+console.log(restaurante.mostrarDetalhes());
+
+Neste exemplo, EstabelecimentoFactory centraliza a criação dos diferentes estabelecimentos, simplificando o código principal e aplicando o padrão Factory Method ao projeto de maneira eficiente e extensível.

@@ -1,0 +1,55 @@
+# Documentação: Padrão Composite
+## Objetivo
+O padrão Composite é um padrão de design estrutural que permite compor objetos em estruturas de árvore para representar hierarquias parte-todo. O padrão permite que clientes tratem objetos individuais e composições de objetos de maneira uniforme. No contexto do nosso sistema, o padrão Composite é utilizado para gerenciar as diferentes categorias de itens do cardápio dos estabelecimentos, como lanches, pizzas, e bebidas, permitindo que o sistema trate esses itens de forma homogênea.
+
+## Componentes
+Componente (Classe Abstrata): Define a interface para todos os objetos que podem ser parte de uma composição. No nosso sistema, a classe ComponenteItem define métodos como exibirDetalhes, que será implementado por todos os itens do cardápio.
+
+Folha (Classe Concreta): Representa os objetos individuais na composição. Exemplos incluem:
+
+ItemLanche: Representa um item de lanche específico, com propriedades como nome, preco e um método exibirDetalhes.
+ItemBebida: Representa um item de bebida com propriedades semelhantes.
+Composição (Classe Concreta): Representa um grupo de objetos que podem incluir tanto folhas quanto outras composições. No nosso sistema, temos:
+
+Categoria: Representa uma categoria do cardápio, como "Lanches" ou "Bebidas". A classe Categoria pode conter uma lista de ComponenteItem, permitindo que agrupe outros itens ou categorias.
+
+## Funcionamento
+Estrutura Hierárquica: O padrão Composite permite construir uma estrutura hierárquica, onde cada Categoria pode conter tanto ItemLanche e ItemBebida, quanto outras categorias. Isso possibilita organizar os itens do cardápio de maneira clara e intuitiva.
+
+Uniformidade de Tratamento: Os clientes podem interagir com as categorias e itens de maneira uniforme, chamando métodos definidos na classe ComponenteItem sem se preocupar se estão lidando com uma folha ou uma composição. Isso simplifica a lógica de exibição e manipulação dos itens do cardápio.
+
+Adição e Remoção: Itens e categorias podem ser facilmente adicionados ou removidos da composição. Isso facilita a manutenção e a evolução do cardápio dos estabelecimentos.
+
+## Benefícios do Padrão Composite
+Simplicidade: O padrão permite uma maneira simples de tratar grupos de objetos como se fossem um único objeto. Isso reduz a complexidade do código cliente e melhora a legibilidade.
+
+Flexibilidade: Novas categorias ou itens podem ser adicionados sem modificar o código existente, permitindo que o sistema se adapte facilmente a mudanças no cardápio.
+
+Hierarquias Naturais: O padrão Composite se alinha bem com a estrutura natural de muitos sistemas, como a organização de menus e submenus, facilitando a implementação de hierarquias complexas.
+
+## Exemplo de Uso
+No arquivo principal do sistema, podemos criar uma hierarquia de itens do cardápio e exibir seus detalhes:
+
+typescript
+
+// Criando itens do cardápio
+const lanche1 = new ItemLanche("Hamburguer", 15.00);
+const lanche2 = new ItemLanche("Cheeseburger", 17.00);
+const bebida1 = new ItemBebida("Refrigerante", 5.00);
+
+// Criando categorias
+const categoriaLanches = new Categoria("Lanches");
+const categoriaBebidas = new Categoria("Bebidas");
+
+// Adicionando itens às categorias
+categoriaLanches.adicionar(lanche1);
+categoriaLanches.adicionar(lanche2);
+categoriaBebidas.adicionar(bebida1);
+
+// Exibindo detalhes dos itens
+console.log("Categoria: " + categoriaLanches.nome);
+categoriaLanches.exibirDetalhes();
+
+console.log("Categoria: " + categoriaBebidas.nome);
+categoriaBebidas.exibirDetalhes();
+Neste exemplo, criamos uma hierarquia de itens e categorias e exibimos seus detalhes, mostrando como o padrão Composite permite tratar a estrutura de maneira uniforme.
