@@ -1,11 +1,9 @@
-// Importa Observador e Preferencia
 import Observador from "./Observador";
-import Preferencia from "../Utils/Preferencia";
 
-// Define ObservadorRecomendacao que estende Observador
 export default class ObservadorRecomendacao extends Observador {
-  // Método de atualização para recomendar produtos baseados na preferência
-  atualizar(preferencia: Preferencia): void {
-    console.log(`Recomendando produtos relacionados a: ${preferencia.tipo}`);
+  // Método de atualização para recomendar produtos relacionados
+  atualizar(nomeProduto: string, preco: number, estabelecimento: string): void {
+    console.log(`Recomendando produtos relacionados ao produto: ${nomeProduto}`);
+    console.log(`Experimente o ${nomeProduto} no ${estabelecimento} por R$${preco}`);
   }
 }

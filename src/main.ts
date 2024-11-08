@@ -14,9 +14,6 @@ console.log(hamburgueria.mostrarDetalhes());
 console.log(pizzaria.mostrarDetalhes());
 console.log(restaurante.mostrarDetalhes());
 
-// Adiciona uma quebra de linha
-console.log("\nNotificando preferências do usuário: Hamburguer\n");
-
 // Instância do notificador de preferências
 const notificador = new NotificadorPreferenciasUsuario();
 
@@ -34,8 +31,37 @@ const preferenciaUsuario = new Preferencia("Hamburguer");
 // Notificando os observadores sobre as preferências do usuário
 notificador.notificarObservadores(preferenciaUsuario);
 
+// Simulando várias ofertas e notificando os observadores sobre elas
+
+// Primeira oferta
+const nomeProduto1 = "Hambúrguer Especial";
+const precoProduto1 = 19.99;
+const estabelecimentoOferta1 = "Big Burger";
+
+// Segunda oferta
+const nomeProduto2 = "Pizza Margherita";
+const precoProduto2 = 29.99;
+const estabelecimentoOferta2 = "Pizzaria Itália";
+
+// Terceira oferta
+const nomeProduto3 = "Feijoada Completa";
+const precoProduto3 = 35.00;
+const estabelecimentoOferta3 = "Sabor Brasil";
+
+// Notificando os observadores sobre as ofertas
+console.log("\nNotificando usuários sobre as ofertas:\n");
+
+notificador.notificarObservadoresOferta(nomeProduto1, precoProduto1, estabelecimentoOferta1);
+console.log(); // Quebra de linha entre notificações
+
+notificador.notificarObservadoresOferta(nomeProduto2, precoProduto2, estabelecimentoOferta2);
+console.log(); // Quebra de linha entre notificações
+
+notificador.notificarObservadoresOferta(nomeProduto3, precoProduto3, estabelecimentoOferta3);
+console.log(); // Quebra de linha entre notificações
+
 // Exibindo categorias
-console.log("\nCategorias:\n");
+console.log("\nCategorias:");
 console.log("Categoria: Fast Food");
 console.log(hamburgueria.mostrarDetalhes());
 console.log(pizzaria.mostrarDetalhes());
