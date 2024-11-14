@@ -11,5 +11,6 @@ export default class Restaurante extends Estabelecimento {
     // Implementação de mostrarDetalhes para exibir informações do restaurante
     mostrarDetalhes(): string {
         return `Restaurante: ${this.nome}, Horário: ${this.horario}`;
+        
     }
 }
