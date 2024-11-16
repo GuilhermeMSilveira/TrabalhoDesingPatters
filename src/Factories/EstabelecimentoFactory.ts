@@ -1,18 +1,21 @@
-// EstabelecimentoFactory.ts
+import Hamburgueria from "../models/Hamburgueria";
+import Pizzaria from "../models/Pizzaria";
+import Restaurante from "../models/Restaurante";
 import Estabelecimento from "../models/Estabelecimento";
 
-export default class EstabelecimentoFactory {
-    // Método estático para criar estabelecimentos
+class EstabelecimentoFactory {
     static criarEstabelecimento(tipo: string, nome: string, horario: string): Estabelecimento {
-        switch (tipo) {
+        switch (tipo.toLowerCase()) {
             case "hamburgueria":
-                return new Estabelecimento(nome, horario);
+                return new Hamburgueria(nome, horario);
             case "pizzaria":
-                return new Estabelecimento(nome, horario);
+                return new Pizzaria(nome, horario);
             case "restaurante":
-                return new Estabelecimento(nome, horario);
+                return new Restaurante(nome, horario);
             default:
-                throw new Error("Tipo de estabelecimento desconhecido");
+                throw new Error("Tipo de estabelecimento inválido!");
         }
     }
 }
+
+export default EstabelecimentoFactory;

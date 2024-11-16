@@ -1,4 +1,5 @@
-export default abstract class Observador {
-  // Método abstrato que será implementado pelos observadores concretos
+abstract class Observador {
   abstract atualizar(nomeProduto: string, preco: number, estabelecimento: string): void;
 }
+
+export default Observador;
