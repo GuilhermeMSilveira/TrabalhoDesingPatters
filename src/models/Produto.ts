@@ -1,4 +1,4 @@
-class Produto {
+export default class Produto {
     private nome: string;
     private preco: number;
 
@@ -19,5 +19,3 @@ class Produto {
         return this.preco;
     }
 }
-
-export default Produto;

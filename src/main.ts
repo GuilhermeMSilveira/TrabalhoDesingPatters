@@ -14,14 +14,18 @@ const produto1 = new Produto("Hambúrguer Especial", 19.99);
 const produto2 = new Produto("Pizza Margherita", 29.99);
 const produto3 = new Produto("Feijoada Completa", 35.00);
 
-// Exibindo Estabelecimentos
+// Alterando diretamente o estado dos estabelecimentos para "Fechado"
+pizzaria.fechar();  // Aqui, fechando a pizzaria
+
+// Exibindo Estabelecimentos com seus estados
 console.log("\n===== Detalhes dos Estabelecimentos =====");
-console.log(hamburgueria.mostrarDetalhes());
-console.log(pizzaria.mostrarDetalhes());
-console.log(restaurante.mostrarDetalhes());
+console.log(hamburgueria.mostrarDetalhesComEstado()); // Usa o método que inclui o estado
+console.log(pizzaria.mostrarDetalhesComEstado());  // Usa o método que inclui o estado
+console.log(restaurante.mostrarDetalhesComEstado()); // Usa o método que inclui o estado
 console.log("========================================\n");
 
-// Notificação
+
+// Notificação de Ofertas
 const notificador = new NotificadorPreferenciasUsuario();
 const observadorOferta = new ObservadorNotificacaoOferta();
 notificador.registrarObservador(observadorOferta);
