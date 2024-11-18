@@ -1,19 +1,20 @@
 // EstadoEstabelecimento.ts
-import Estabelecimento from "../models/Estabelecimento";
+// Define a interface para estados de um estabelecimento
 
 export interface EstadoEstabelecimento {
-    exibirEstado(estabelecimento: Estabelecimento): string;
+    exibirEstado(estabelecimento: any): string; // Método para exibir o estado atual
 }
 
+// Estado "Aberto" implementando a interface
 export class Aberto implements EstadoEstabelecimento {
-    exibirEstado(estabelecimento: Estabelecimento): string {
-        // Aqui você pode acessar os detalhes do estabelecimento, como nome ou outros dados
-        return `${estabelecimento.getNome()} está Aberto`;
+    exibirEstado(estabelecimento: any): string {
+        return "Aberto";
     }
 }
 
+// Estado "Fechado" implementando a interface
 export class Fechado implements EstadoEstabelecimento {
-    exibirEstado(estabelecimento: Estabelecimento): string {
-        return `${estabelecimento.getNome()} está Fechado`;
-    }   
+    exibirEstado(estabelecimento: any): string {
+        return "Fechado";
+    }
 }
