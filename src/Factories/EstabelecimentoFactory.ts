@@ -1,25 +1,35 @@
-// Importações dos modelos dos tipos de estabelecimentos
-import Hamburgueria from "../models/Hamburgueria";
-import Pizzaria from "../models/Pizzaria";
-import Restaurante from "../models/Restaurante";
-import Estabelecimento from "../models/Estabelecimento";
+import Hamburgueria from "../estabelecimentos/Hamburgueria";
+import Pizzaria from "../estabelecimentos/Pizzaria";
+import Restaurante from "../estabelecimentos/Restaurante";
 
-// Classe para criar diferentes tipos de estabelecimentos
-class EstabelecimentoFactory {
-    // Método que cria um estabelecimento com base no tipo fornecido
-    static criarEstabelecimento(tipo: string, nome: string, horario: string): Estabelecimento {
-        // Verifica o tipo e cria o respectivo objeto
-        switch (tipo.toLowerCase()) {
-            case "hamburgueria":
-                return new Hamburgueria(nome, horario);
-            case "pizzaria":
-                return new Pizzaria(nome, horario);
-            case "restaurante":
-                return new Restaurante(nome, horario);
-            default:
-                throw new Error("Tipo de estabelecimento inválido!"); // Lança um erro se o tipo for desconhecido
-        }
+export type TipoEstabelecimento = "hamburgueria" | "pizzaria" | "restaurante";
+
+/**
+ * Fábrica para criação de estabelecimentos.
+ * Permite instanciar tipos específicos de estabelecimento de forma centralizada.
+ */
+export default class EstabelecimentoFactory {
+  /**
+   * Cria uma instância de estabelecimento conforme o tipo.
+   * @param tipo Tipo do estabelecimento a ser criado.
+   * @param nome Nome do estabelecimento.
+   * @param horario Horário de funcionamento.
+   * @returns Instância de Estabelecimento correspondente ao tipo.
+   */
+  static criarEstabelecimento(
+    tipo: TipoEstabelecimento,
+    nome: string,
+    horario: string
+  ) {
+    switch (tipo) {
+      case "hamburgueria":
+        return new Hamburgueria(nome, horario);
+      case "pizzaria":
+        return new Pizzaria(nome, horario);
+      case "restaurante":
+        return new Restaurante(nome, horario);
+      default:
+        throw new Error(`Tipo de estabelecimento inválido: ${tipo}`);
     }
+  }
 }
-
-export default EstabelecimentoFactory;
