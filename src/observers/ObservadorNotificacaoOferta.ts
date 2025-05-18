@@ -1,18 +1,9 @@
-import Observador from "./Observador";
+// ObservadorNotificacaoOferta.ts
+import { Observador } from "./Observador";
 
-/**
- * Observador concreto que exibe notificações de ofertas no console.
- */
-class ObservadorNotificacaoOferta extends Observador {
-  /**
-   * Atualiza o observador com os detalhes da nova oferta.
-   * @param nomeProduto Nome do produto ofertado.
-   * @param preco Preço do produto.
-   * @param estabelecimento Nome do estabelecimento que oferece a oferta.
-   */
+export class ObservadorNotificacaoOferta extends Observador {
   atualizar(nomeProduto: string, preco: number, estabelecimento: string): void {
-    console.log(`Oferta: ${nomeProduto} por R$${preco.toFixed(2)} no ${estabelecimento}`);
+    const mensagem = `Oferta: ${nomeProduto} por R$${preco.toFixed(2)} no ${estabelecimento}`;
+    this.canalNotificacao.enviar(mensagem);
   }
 }
-
-export default ObservadorNotificacaoOferta;

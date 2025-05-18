@@ -20,13 +20,11 @@ export abstract class Estabelecimento {
     this.produtos.push(produto);
   }
 
-  exibirProdutos(): void {
-    this.produtos.forEach(produto => {
-      console.log(`- ${produto.detalhes()}`);
-    });
+  listarProdutos(): string[] {
+    return this.produtos.map(produto => `- ${produto.detalhes()}`);
   }
 
-  abstract mostrarDetalhes(): string;
+  abstract obterDetalhes(): string;
 
   abrir(): void {
     this.estado = new Aberto();
@@ -36,12 +34,12 @@ export abstract class Estabelecimento {
     this.estado = new Fechado();
   }
 
-  exibirEstado(): string {
-    return this.estado.exibirEstado();
+  obterEstado(): string {
+    return this.estado.obterEstado();
   }
 
-  mostrarDetalhesComEstado(): string {
-    return `${this.mostrarDetalhes()} | Estado atual: ${this.exibirEstado()}`;
+  obterDetalhesComEstado(): string {
+    return `${this.obterDetalhes()} | Estado atual: ${this.obterEstado()}`;
   }
 
   getNome(): string {

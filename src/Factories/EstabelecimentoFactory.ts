@@ -1,26 +1,27 @@
 import Hamburgueria from "../estabelecimentos/Hamburgueria";
 import Pizzaria from "../estabelecimentos/Pizzaria";
 import Restaurante from "../estabelecimentos/Restaurante";
+import Estabelecimento from "../domain/entities/Estabelecimento";
 
 export type TipoEstabelecimento = "hamburgueria" | "pizzaria" | "restaurante";
 
 /**
- * Fábrica para criação de estabelecimentos.
- * Permite instanciar tipos específicos de estabelecimento de forma centralizada.
+ * Fábrica responsável por criar instâncias de estabelecimentos conforme o tipo.
  */
 export default class EstabelecimentoFactory {
   /**
-   * Cria uma instância de estabelecimento conforme o tipo.
-   * @param tipo Tipo do estabelecimento a ser criado.
-   * @param nome Nome do estabelecimento.
-   * @param horario Horário de funcionamento.
-   * @returns Instância de Estabelecimento correspondente ao tipo.
+   * Cria uma instância de estabelecimento baseado no tipo fornecido.
+   * @param tipo - Tipo do estabelecimento.
+   * @param nome - Nome do estabelecimento.
+   * @param horario - Horário de funcionamento.
+   * @returns Instância do estabelecimento correspondente.
+   * @throws Erro caso o tipo seja inválido.
    */
   static criarEstabelecimento(
     tipo: TipoEstabelecimento,
     nome: string,
     horario: string
-  ) {
+  ): Estabelecimento {
     switch (tipo) {
       case "hamburgueria":
         return new Hamburgueria(nome, horario);
@@ -29,7 +30,7 @@ export default class EstabelecimentoFactory {
       case "restaurante":
         return new Restaurante(nome, horario);
       default:
-        throw new Error(`Tipo de estabelecimento inválido: ${tipo}`);
+        throw new Error(`Tipo de estabelecimento inválido: "${tipo}"`);
     }
   }
 }

@@ -1,18 +1,24 @@
-// EstadoEstabelecimento.ts
-// Define a interface e implementações para estados de um estabelecimento
-
+/**
+ * Interface para representar o estado de um estabelecimento.
+ */
 export interface EstadoEstabelecimento {
-  exibirEstado(): string; // Retorna o estado atual do estabelecimento
+  obterEstado(): string;
 }
 
+/**
+ * Representa o estado "Aberto" de um estabelecimento.
+ */
 export class Aberto implements EstadoEstabelecimento {
-  exibirEstado(): string {
+  obterEstado(): string {
     return "Aberto";
   }
 }
 
+/**
+ * Representa o estado "Fechado" de um estabelecimento.
+ */
 export class Fechado implements EstadoEstabelecimento {
-  exibirEstado(): string {
+  obterEstado(): string {
     return "Fechado";
   }
 }

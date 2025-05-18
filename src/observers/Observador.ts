@@ -1,12 +1,12 @@
-/**
- * Interface para observadores que recebem notificações de ofertas.
- */
-export default abstract class Observador {
-  /**
-   * Método chamado para atualizar o observador sobre uma nova oferta.
-   * @param nomeProduto Nome do produto ofertado.
-   * @param preco Preço da oferta.
-   * @param estabelecimento Estabelecimento que oferece o produto.
-   */
+// Observador.ts
+import { NotificadorConsole } from "./NotificadorConsole";
+
+export abstract class Observador {
+  protected canalNotificacao: NotificadorConsole;
+
+  constructor(canalNotificacao: NotificadorConsole) {
+    this.canalNotificacao = canalNotificacao;
+  }
+
   abstract atualizar(nomeProduto: string, preco: number, estabelecimento: string): void;
 }

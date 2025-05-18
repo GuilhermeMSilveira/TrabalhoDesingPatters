@@ -1,11 +1,10 @@
 import Estabelecimento from "../domain/entities/Estabelecimento";
 
 /**
- * Classe que representa uma Pizzaria, especialização da classe Estabelecimento.
- * Implementa a exibição dos detalhes específicos deste tipo de estabelecimento.
+ * Representa uma Pizzaria como um tipo de Estabelecimento.
  */
 export class Pizzaria extends Estabelecimento {
-  mostrarDetalhes(): string {
+  obterDetalhes(): string {
     return `Pizzaria: ${this.getNome()}, Horário: ${this.getHorario()}`;
   }
 }

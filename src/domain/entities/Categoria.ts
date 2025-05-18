@@ -4,7 +4,7 @@ import Estabelecimento from "./Estabelecimento";
  * Representa uma categoria que agrupa estabelecimentos.
  */
 export default class Categoria {
-  private componentes: Estabelecimento[] = [];
+  private estabelecimentos: Estabelecimento[] = [];
 
   constructor(private nome: string) {}
 
@@ -13,17 +13,33 @@ export default class Categoria {
    * @param estabelecimento Estabelecimento a ser adicionado.
    */
   adicionar(estabelecimento: Estabelecimento): void {
-    this.componentes.push(estabelecimento);
+    this.estabelecimentos.push(estabelecimento);
+  }
+
+  /**
+   * Retorna o nome da categoria.
+   */
+  obterNome(): string {
+    return this.nome;
+  }
+
+  /**
+   * Retorna a lista de estabelecimentos.
+   */
+  obterEstabelecimentos(): Estabelecimento[] {
+    return [...this.estabelecimentos];
   }
 
   /**
    * Exibe detalhes da categoria e de seus estabelecimentos.
+   * (Para simplificar, ainda usa console.log; ideal seria separar apresentação)
    */
   exibirDetalhes(): void {
     console.log(`Categoria: ${this.nome}`);
-    this.componentes.forEach(estabelecimento => {
-      console.log(estabelecimento.mostrarDetalhes());
-      estabelecimento.exibirProdutos();
+    this.estabelecimentos.forEach(estabelecimento => {
+      // Aqui usamos obterDetalhes e listarProdutos conforme documentação
+      console.log(estabelecimento.obterDetalhes());
+      estabelecimento.listarProdutos().forEach(produtoStr => console.log(produtoStr));
     });
   }
 }

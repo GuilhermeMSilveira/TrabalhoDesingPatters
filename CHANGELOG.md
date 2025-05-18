@@ -14,6 +14,18 @@ Todas as mudanças significativas feitas no projeto FoodNav.
 - Testes unitários para validar as principais funcionalidades.
 - Configuração inicial do ambiente e estrutura de pastas.
 
+### Code Smells Identificados e Corrigidos
+- **Nomes pouco semânticos:** variáveis, métodos e pastas com nomes genéricos e pouco alinhados ao domínio.
+- **Duplicação de código:** lógica repetida para criação e manipulação de estabelecimentos.
+- **Comentários redundantes e óbvios:** excesso de comentários que não agregavam valor, poluindo o código.
+- **Baixa modularização:** código concentrado em poucas pastas e arquivos, dificultando escalabilidade.
+- **Validações ausentes ou insuficientes:** falta de validação básica, como evitar preços negativos em produtos.
+- **Nomenclatura inconsistente:** métodos e propriedades com nomes ambíguos ou pouco claros.
+- **Acoplamento excessivo:** classes fortemente dependentes dificultando manutenção e testes.
+- **Código com baixa legibilidade:** falta de organização, alinhamento com Clean Code e padrão de projeto.
+
+As refatorações subsequentes foram orientadas para eliminar esses code smells, resultando em um código mais limpo, modular, legível e sustentável.
+
 ### Refatorado
 - Reorganização completa da estrutura do projeto para melhor modularização e clareza:
   - Pastas renomeadas para maior semântica:
@@ -74,7 +86,7 @@ src/
 
 ### Refatoração — Produto
 - Propriedades definidas diretamente no construtor para simplificação.
-- Método `mostrarDetalhes` renomeado para `detalhes`, deixando o nome mais semântico.
+- Método `mostrarDetalhes` renomeado para `obterDetalhes`, deixando o nome mais semântico.
 - Adicionada validação para preço não ser negativo.
 - Remoção de comentários redundantes, mantendo apenas explicações relevantes.
 - Código alinhado aos princípios de Clean Code para maior legibilidade e manutenção.
@@ -147,17 +159,37 @@ src/
 
 ---
 
+## [1.0.5] - 18/05/2025 às 15:00
+
+### Renomeação e melhoria dos nomes para maior clareza
+- Interface `ICanalNotificacao` renomeada para `NotificadorConsole`.
+- Classe `CanalConsole` renomeada para `MensagemConsole`.
+- Nomes ajustados para refletir responsabilidades claras e facilitar entendimento por outros desenvolvedores.
+- Atualização das importações e uso nos arquivos.
+
+### Refatoração de comentários segundo Clean Code
+- Remoção de comentários óbvios e redundantes.
+- Manutenção apenas de comentários que esclarecem decisões importantes, contexto ou complexidade.
+- Código mais legível e enxuto com documentação essencial.
+
+### Exemplo simplificado da função principal (`main.ts`)
+- Uso de comentários essenciais para justificar decisões como uso da Factory e simulação de mudança de estado.
+- Remoção de comentários explicativos sobre operações triviais.
+- Organização clara da sequência lógica: criação de estabelecimentos e produtos, simulação de estados, notificações e exibição.
+
+---
+
 ## Observação Geral
 
-- Essas melhorias e refatorações foram aplicadas no branch de desenvolvimento.
-- A branch `main` ainda mantém a estrutura e código antigos.
-- Para usar as atualizações, trabalhar na branch correta ou realizar merge após estabilização.
+- Todas as melhorias e refatorações descritas foram aplicadas no branch de desenvolvimento.
+- A branch `main` mantém o código legado até que as mudanças sejam aprovadas e mescladas.
+- O changelog segue os princípios do Clean Code, priorizando legibilidade, clareza e manutenção facilitada.
 
 ---
 
 # Notas Finais
 
-Este changelog segue os princípios de Clean Code, enfatizando:
+Este changelog enfatiza:
 
 - Legibilidade e clareza do código.
 - Nomes semânticos e alinhados ao domínio.
@@ -166,4 +198,4 @@ Este changelog segue os princípios de Clean Code, enfatizando:
 - Remoção de duplicações e redundâncias.
 - Facilitação da manutenção e extensibilidade.
 
----
+```
