@@ -5,32 +5,30 @@ import Estabelecimento from "../domain/entities/Estabelecimento";
 
 export type TipoEstabelecimento = "hamburgueria" | "pizzaria" | "restaurante";
 
-/**
- * Fábrica responsável por criar instâncias de estabelecimentos conforme o tipo.
- */
 export default class EstabelecimentoFactory {
-  /**
-   * Cria uma instância de estabelecimento baseado no tipo fornecido.
-   * @param tipo - Tipo do estabelecimento.
-   * @param nome - Nome do estabelecimento.
-   * @param horario - Horário de funcionamento.
-   * @returns Instância do estabelecimento correspondente.
-   * @throws Erro caso o tipo seja inválido.
-   */
+  private static tiposMap: Record<TipoEstabelecimento, any> = {
+    hamburgueria: Hamburgueria,
+    pizzaria: Pizzaria,
+    restaurante: Restaurante,
+  };
+
   static criarEstabelecimento(
     tipo: TipoEstabelecimento,
     nome: string,
     horario: string
   ): Estabelecimento {
-    switch (tipo) {
-      case "hamburgueria":
-        return new Hamburgueria(nome, horario);
-      case "pizzaria":
-        return new Pizzaria(nome, horario);
-      case "restaurante":
-        return new Restaurante(nome, horario);
-      default:
-        throw new Error(`Tipo de estabelecimento inválido: "${tipo}"`);
+    if (!nome || nome.trim() === "") {
+      throw new Error("Nome do estabelecimento não pode ser vazio");
     }
+
+    if (!horario || horario.trim() === "") {
+      throw new Error("Horário inválido");
+    }
+
+    const ClasseEstabelecimento = this.tiposMap[tipo];
+    if (!ClasseEstabelecimento) {
+      throw new Error(`Tipo de estabelecimento inválido: "${tipo}"`);
+    }
+    return new ClasseEstabelecimento(nome, horario);
   }
 }

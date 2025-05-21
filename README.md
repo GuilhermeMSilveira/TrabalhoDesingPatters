@@ -106,15 +106,17 @@ O projeto conta com um diagrama UML detalhado, disponível no Figma:
    ```bash
    npm install
    ```
+
 3. Rode os testes para verificar se está tudo funcionando:
 
    ```bash
-   npm test
+   npm run test
    ```
+
 4. Execute a aplicação (exemplo):
 
    ```bash
-   npm start
+   npm run dev
    ```
 
 ---
@@ -331,52 +333,49 @@ class MeuObservador extends Observador {
 
 ## Descrição
 
-Implementação concreta da interface `Observador`, responsável por exibir notificações de ofertas no console.
+Implementação concreta da interface `Observador`, responsável por exibir notificações
 
-## Funcionalidades
 
-* Recebe atualizações de ofertas contendo nome do produto, preço e estabelecimento.
-* Exibe as informações formatadas no console.
+no console sempre que há uma nova oferta.
 
-## Refatoração e Melhorias
+## Funcionalidade
 
-* Adição de documentação clara para métodos e parâmetros.
-* Nomenclatura consistente e descritiva.
-* Código enxuto e aderente aos princípios do Clean Code.
+* Recebe notificações de ofertas.
+* Exibe mensagem formatada no console.
 
-## Como usar
+## Estratégia de Refatoração
 
-Estenda a classe `ObservadorNotificacaoOferta` e registre em um sistema que notifica ofertas para receber atualizações e exibir no console.
-
-```typescript
-import ObservadorNotificacaoOferta from './observers/ObservadorNotificacaoOferta';
-
-const observador = new ObservadorNotificacaoOferta();
-observador.atualizar('Hambúrguer', 15.99, 'Hamburgueria Top');
-```
+* Nomes claros para a classe e método.
+* Implementação direta e objetiva.
+* Comentários explicando a finalidade.
 
 ---
 
-# Execução Principal do Projeto
+# ProdutoBuilder (Interface fluente)
 
 ## Descrição
 
-Arquivo principal que demonstra a criação dos estabelecimentos, produtos, categorias, e integração com o sistema de notificações baseado no padrão Observer.
+Classe que utiliza o padrão Fluent Interface para permitir a criação encadeada e segura de objetos Produto.
 
-## Funcionalidades
+## Funcionalidade
 
-* Criação de estabelecimentos via Factory.
-* Criação de produtos e associação com estabelecimentos.
-* Controle de estado dos estabelecimentos (Aberto/Fechado).
-* Sistema de notificação para ofertas, com observadores registrados.
-* Gerenciamento de categorias, incluindo exibição de detalhes.
+* Permite configurar nome e preço do produto de forma fluida.
+* Garante a validação do preço (não negativo) no momento da criação.
+* Método `build()` retorna uma instância imutável de Produto.
 
-## Como Executar
+## Estratégia de Refatoração
 
-Compile o projeto TypeScript e execute o arquivo principal:
+* Simplificação da API para facilitar uso.
+* Validação interna para evitar criação inválida.
+* Código autoexplicativo, dispensando comentários excessivos.
 
-```bash
-tsc && node dist/main.js
-```
+---
 
-```
+## 📌 Observações Finais
+
+* Todo o código foi refatorado visando **Clean Code**, aplicando os princípios de legibilidade, simplicidade, modularização e responsabilidade única.
+* Foram eliminados comentários redundantes e acrescentados os necessários para entendimento do propósito das classes e métodos.
+* Foi aplicada tipagem forte do TypeScript para evitar erros comuns em tempo de compilação.
+* Todos os padrões de projeto foram implementados para garantir escalabilidade e facilidade na manutenção futura.
+
+---

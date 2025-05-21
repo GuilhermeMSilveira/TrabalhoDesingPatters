@@ -3,52 +3,59 @@ import { NotificadorPreferenciasUsuario } from "../observers/NotificadorPreferen
 import { ObservadorNotificacaoOferta } from "../observers/ObservadorNotificacaoOferta";
 import { MensagemConsole } from "../observers/MensagemConsole";
 import Categoria from "../domain/entities/Categoria";
-import Produto from "../domain/entities/Produto";
+import { produtos } from "../data/CadastrarProduto";
 
 const canalConsole = new MensagemConsole();
 
-// Usa Factory para criação consistente dos estabelecimentos
-const hamburgueria = EstabelecimentoFactory.criarEstabelecimento("hamburgueria", "Big Burger", "10:00 - 22:00");
-const pizzaria = EstabelecimentoFactory.criarEstabelecimento("pizzaria", "Pizzaria Itália", "11:00 - 23:00");
-const restaurante = EstabelecimentoFactory.criarEstabelecimento("restaurante", "Sabor Brasil", "12:00 - 20:00");
+try {
+  const hamburgueria = EstabelecimentoFactory.criarEstabelecimento("hamburgueria", "Big Burger", "10:00 - 22:00");
+  const pizzaria = EstabelecimentoFactory.criarEstabelecimento("pizzaria", "Pizzaria Itália", "51:00 - 23:00");
+  const restaurante = EstabelecimentoFactory.criarEstabelecimento("restaurante", "Sabor Brasil", "12:00 - 20:00");
 
-const produtoHamburguer = new Produto("Hambúrguer Especial", 19.99);
-const produtoPizza = new Produto("Pizza Margherita", 29.99);
-const produtoFeijoada = new Produto("Feijoada Completa", 35.00);
+  // Se quiser testar o erro, pode usar o try/catch para capturar (não recomendado em produção)
+  // const padaria = EstabelecimentoFactory.criarEstabelecimento("padaria" as any, "Padoca", "07:00 - 12:00");
 
-// Simula o fechamento do estabelecimento (exemplo de mudança de estado)
-pizzaria.fechar();
+  pizzaria.fechar();
 
-canalConsole.enviar("\n===== Detalhes dos Estabelecimentos =====");
-[hamburgueria, pizzaria, restaurante].forEach(estabelecimento => {
-  canalConsole.enviar(estabelecimento.obterDetalhesComEstado());
-});
-canalConsole.enviar("========================================\n");
+  canalConsole.enviar("\n===== Detalhes dos Estabelecimentos =====");
+  [hamburgueria, pizzaria, restaurante].forEach(estabelecimento =>
+    canalConsole.enviar(estabelecimento.obterDetalhesComEstado())
+  );
+  canalConsole.enviar("========================================\n");
 
-const notificador = new NotificadorPreferenciasUsuario();
-const observadorOferta = new ObservadorNotificacaoOferta(canalConsole);
-notificador.registrarObservador(observadorOferta);
+  // Configura notificador e registradores
+  const notificador = new NotificadorPreferenciasUsuario();
+  const observadorOferta = new ObservadorNotificacaoOferta(canalConsole);
+  notificador.registrarObservador(observadorOferta);
 
-// Notifica os observadores sobre novas ofertas
-canalConsole.enviar("\n===== Notificações de Ofertas =====");
-notificador.notificarObservadoresOferta(produtoHamburguer.getNome(), produtoHamburguer.getPreco(), hamburgueria.obterDetalhes());
-notificador.notificarObservadoresOferta(produtoPizza.getNome(), produtoPizza.getPreco(), pizzaria.obterDetalhes());
-notificador.notificarObservadoresOferta(produtoFeijoada.getNome(), produtoFeijoada.getPreco(), restaurante.obterDetalhes());
-canalConsole.enviar("========================================\n");
+  canalConsole.enviar("\n===== Notificações de Ofertas =====");
 
-const categoriaFastFood = new Categoria("Fast Food");
-const categoriaRestaurantes = new Categoria("Restaurantes");
+  if (produtos.length >= 3) {
+    notificador.notificarObservadoresOferta(produtos[0].getNome(), produtos[0].getPreco(), hamburgueria.obterDetalhes());
+    notificador.notificarObservadoresOferta(produtos[1].getNome(), produtos[1].getPreco(), pizzaria.obterDetalhes());
+    notificador.notificarObservadoresOferta(produtos[2].getNome(), produtos[2].getPreco(), restaurante.obterDetalhes());
+  } else {
+    canalConsole.enviar("Nenhuma oferta disponível (produtos inválidos ou insuficientes).");
+  }
+  canalConsole.enviar("========================================\n");
 
-// Associação de categorias aos estabelecimentos e seus produtos
-categoriaFastFood.adicionar(hamburgueria);
-hamburgueria.adicionarProduto(produtoHamburguer);
+  const categoriaFastFood = new Categoria("Fast Food");
+  const categoriaRestaurantes = new Categoria("Restaurantes");
 
-categoriaFastFood.adicionar(pizzaria);
-pizzaria.adicionarProduto(produtoPizza);
+  categoriaFastFood.adicionar(hamburgueria);
+  categoriaFastFood.adicionar(pizzaria);
+  categoriaRestaurantes.adicionar(restaurante);
 
-categoriaRestaurantes.adicionar(restaurante);
-restaurante.adicionarProduto(produtoFeijoada);
+  if (produtos.length >= 3) {
+    hamburgueria.adicionarProduto(produtos[0]);
+    pizzaria.adicionarProduto(produtos[1]);
+    restaurante.adicionarProduto(produtos[2]);
+  }
 
-canalConsole.enviar("\n===== Categorias =====");
-[categoriaFastFood, categoriaRestaurantes].forEach(categoria => categoria.exibirDetalhes());
-canalConsole.enviar("========================================\n");
+  canalConsole.enviar("\n===== Categorias =====");
+  [categoriaFastFood, categoriaRestaurantes].forEach(categoria => categoria.exibirDetalhes());
+  canalConsole.enviar("========================================\n");
+
+} catch (error: any) {
+  canalConsole.enviar(`Erro ao criar estabelecimento: ${error.message}`);
+}

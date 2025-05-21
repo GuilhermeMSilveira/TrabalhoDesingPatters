@@ -1,3 +1,5 @@
+// src/domain/entities/Produto.ts
+
 /**
  * Representa um produto oferecido por um estabelecimento.
  */

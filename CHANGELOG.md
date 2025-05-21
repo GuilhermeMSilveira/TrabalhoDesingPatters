@@ -198,4 +198,48 @@ Este changelog enfatiza:
 - Remoção de duplicações e redundâncias.
 - Facilitação da manutenção e extensibilidade.
 
+## [1.0.6] - 21/05/2025 às 14:00
+
+## Adicionado — Testes Automatizados (Cobertura Parcial)
+
+- Implementada suíte de testes unitários com Jest, visando aproximadamente 50% de cobertura de código, com foco nas seguintes classes e comportamentos:
+
+- Criação de produtos com o ProdutoBuilder.
+
+- Validação de preço e nome na entidade Produto.
+
+- Adição de produtos a categorias compostas (padrão Composite).
+
+- Simulação de estados dos estabelecimentos (padrão State).
+
+- Comportamento da fábrica de estabelecimentos (EstabelecimentoFactory).
+
+- Notificações com o padrão Observer.
+
+## Melhorias
+- Garantia de testabilidade em várias classes com injeção de dependência e organização clara das responsabilidades.
+
+- Código modular e separado por domínio, facilitando a escrita e manutenção dos testes.
+
+- Criação do diretório tests/ com organização por contexto e entidade.
+
+## Correções
+- Pequenos ajustes em assinaturas de métodos e estrutura de retorno para facilitar a testabilidade (ex.: obterDetalhes e mostrarDetalhesComEstado).
+
+- Correção de imports inconsistentes detectados durante execução dos testes.
+
+
+## [1.0.7] - 21/05/2025 às 14:30
+## Adicionado — Classe Auxiliar para Testes
+
+- Criação da classe CadastrarProduto.ts no diretório utils/ com o objetivo de centralizar e padronizar a criação de produtos durante os testes unitários.
+
+- Essa classe encapsula a lógica repetitiva de construção de objetos Produto utilizando o ProdutoBuilder, permitindo testes mais limpos, reutilizáveis e focados no comportamento testado.
+
+- Exemplo de uso nos testes automatizados do produto e de categorias compostas.
+
+## Melhorias
+- Redução da duplicação de código nos arquivos de teste ao usar uma interface fluente unificada para construção de produtos.
+
+- Melhoria da organização dos testes com utilização de helpers reutilizáveis.
 ```
