@@ -1,5 +1,5 @@
-import Produto from "../domain/entities/Produto";
-import { produtos } from "../data/CadastrarProduto";
+import { Produto } from "../domain/entities/Produto";
+import { produtos } from "../utils/CadastrarProduto";
 
 describe("Produto", () => {
   it("cria produto com preço positivo sem erro", () => {

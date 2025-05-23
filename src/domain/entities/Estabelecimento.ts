@@ -1,4 +1,4 @@
-import Produto from "./Produto";
+import { Produto } from "./Produto";
 import { EstadoEstabelecimento, Aberto, Fechado } from "../state/EstadoEstabelecimento";
 
 /**
@@ -16,8 +16,10 @@ export abstract class Estabelecimento {
     this.estado = new Aberto();
   }
 
-  adicionarProduto(produto: Produto): void {
+  // Método fluente para adicionar produto
+  public adicionarProduto(produto: Produto): this {
     this.produtos.push(produto);
+    return this;
   }
 
   listarProdutos(): string[] {
@@ -26,12 +28,15 @@ export abstract class Estabelecimento {
 
   abstract obterDetalhes(): string;
 
-  abrir(): void {
+  // Métodos fluentes para abrir e fechar estabelecimento
+  public abrir(): this {
     this.estado = new Aberto();
+    return this;
   }
 
-  fechar(): void {
+  public fechar(): this {
     this.estado = new Fechado();
+    return this;
   }
 
   obterEstado(): string {

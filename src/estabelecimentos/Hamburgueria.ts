@@ -1,8 +1,5 @@
 import Estabelecimento from "../domain/entities/Estabelecimento";
 
-/**
- * Representa uma Hamburgueria como um tipo de Estabelecimento.
- */
 export class Hamburgueria extends Estabelecimento {
   constructor(nome: string, horario: string) {
     super(nome, horario);
@@ -15,9 +12,25 @@ export class Hamburgueria extends Estabelecimento {
       throw new Error("Horário do estabelecimento não pode ser vazio");
     }
 
-    const horarioRegex = /^\d{2}:\d{2}\s*-\s*\d{2}:\d{2}$/;
-    if (!horarioRegex.test(horario)) {
+    const regex = /^(\d{2}):(\d{2})\s*-\s*(\d{2}):(\d{2})$/;
+    const match = horario.match(regex);
+    if (!match) {
       throw new Error(`Formato de horário inválido: "${horario}"`);
+    }
+
+    const [, hInicio, mInicio, hFim, mFim] = match;
+    const horaInicio = Number(hInicio);
+    const minInicio = Number(mInicio);
+    const horaFim = Number(hFim);
+    const minFim = Number(mFim);
+
+    if (
+      horaInicio < 0 || horaInicio > 23 ||
+      minInicio < 0 || minInicio > 59 ||
+      horaFim < 0 || horaFim > 23 ||
+      minFim < 0 || minFim > 59
+    ) {
+      throw new Error(`Horário fora do intervalo válido: "${horario}"`);
     }
   }
 

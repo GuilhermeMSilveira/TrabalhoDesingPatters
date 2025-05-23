@@ -1,4 +1,4 @@
-import Produto from "../domain/entities/Produto";
+import { Produto } from "../domain/entities/Produto";
 
 export const produtos: Produto[] = [];
 

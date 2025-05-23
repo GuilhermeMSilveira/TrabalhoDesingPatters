@@ -1,381 +1,362 @@
 ﻿# Trabalho Design Patterns - FoodNav
+## Alunos:
+- Guilherme Marques Silveira  
+- Luiz Otavio Milanezi Vieira
+---
 
-## 🍽 O que é o FoodNav?
+## 🍽 Descrição do Software
 
-FoodNav é um aplicativo que ajuda você a descobrir os melhores restaurantes e pratos, personalizados para seu gosto. Utilizando dados de localização, preferências alimentares e um sistema de recomendação inteligente, o FoodNav sugere opções que combinam perfeitamente com o seu paladar.
+FoodNav é um backend desenvolvido em TypeScript para auxiliar usuários a descobrir os melhores restaurantes e pratos personalizados conforme seu gosto e preferências. Utiliza dados de localização, preferências alimentares e um sistema de recomendação inteligente para sugerir opções ideais.
 
-O projeto é uma implementação focada em backend, escrita em TypeScript, que utiliza diversos **padrões de projeto (Design Patterns)** para organizar e tornar o código mais escalável, fácil de manter e evoluir.
+O projeto enfatiza a aplicação de **padrões de projeto clássicos (Design Patterns)**, que garantem uma arquitetura modular, escalável e de fácil manutenção. Além disso, emprega boas práticas de Clean Code para garantir qualidade e legibilidade no código.
 
 ---
 
-## 🎯 Objetivo do Projeto
+## 🎯 Principais Funcionalidades
 
-- Aplicar os conceitos de design patterns clássicos (Factory, Observer, State, Composite, Fluent Interface).
-- Criar uma arquitetura limpa, modular e com responsabilidades bem definidas.
-- Demonstrar boas práticas de programação orientada a objetos e design de software.
-- Fornecer um backend capaz de criar, gerenciar e notificar sobre restaurantes e seus produtos.
+- Cadastro e organização de diversos tipos de estabelecimentos: restaurantes, pizzarias, hamburguerias.
+- Controle de estado dos estabelecimentos, com transições entre "Aberto" e "Fechado" (padrão State).
+- Notificações automáticas para usuários sobre promoções e ofertas (padrão Observer).
+- Estrutura hierárquica que permite manipular objetos individuais ou grupos de produtos e estabelecimentos (padrão Composite).
+- Implementação de interfaces fluentes (Fluent Interface) para facilitar a criação e configuração dos objetos (Produto, Categoria, Estabelecimento).
+- Cobertura parcial com testes unitários para garantir a confiabilidade do sistema.
 
 ---
 
-## 📋 Funcionalidades principais
+## 🛠 Análise dos Principais Problemas Detectados
 
-- Cadastro e organização de estabelecimentos (restaurantes, pizzarias, hamburguerias).
-- Controle de estado dos estabelecimentos (Aberto, Fechado).
-- Notificações automáticas para usuários sobre promoções e ofertas (Observer).
-- Criação fluente e segura de produtos via interface fluente (Builder).
-- Estrutura hierárquica que permite tratar produtos e estabelecimentos individualmente ou em grupo (Composite).
-- Testes unitários para garantir qualidade e confiabilidade do código.
+Durante a análise do código original foram identificados os seguintes problemas:
+
+- **Código repetitivo e verboso:** a criação de objetos era feita de forma manual, com muita duplicação e pouca reutilização.
+- **Acoplamento excessivo:** a lógica de criação, estados e notificações estava pouco modularizada, dificultando a manutenção.
+- **Pouca clareza na construção dos objetos:** sem o uso de interfaces fluentes, a configuração dos objetos era extensa e propensa a erros.
+- **Falta de validação adequada:** campos como preço do produto aceitavam valores inválidos, comprometendo a integridade dos dados.
+- **Testes insuficientes:** alguns comportamentos críticos, como transição de estado e notificações, não tinham cobertura adequada.
+- **Dificuldade na extensão do sistema:** adicionar novos tipos de estabelecimentos ou funcionalidades exigia alterações profundas.
+
+---
+
+## 🔧 Estratégia de Refatoração Adotada
+
+Para solucionar os problemas detectados, adotamos as seguintes abordagens:
+
+1. **Aplicação de Design Patterns clássicos**:
+   - *Factory*: para abstrair e padronizar a criação dos estabelecimentos e produtos, facilitando expansão futura.
+   - *State*: para encapsular o comportamento dos estados do estabelecimento (Aberto, Fechado), evitando condicionais complexos.
+   - *Observer*: para desacoplar a emissão e recepção de notificações, facilitando a implementação de novos observadores.
+   - *Composite*: para permitir tratar objetos e grupos uniformemente, facilitando operações em hierarquias.
+   - *Fluent Interface*: para construção simples e legível dos objetos via métodos encadeados.
+
+2. **Modularização clara** do código, separando responsabilidades em domínios distintos (`entities`, `states`, `factories`, `observers`, etc).
+
+3. **Implementação de validações** nos setters das classes para garantir que propriedades como preço e nomes sejam consistentes.
+
+4. **Ampliação da cobertura de testes** com Jest, garantindo verificação das funcionalidades essenciais e prevenindo regressões.
+
+5. **Documentação detalhada** para facilitar entendimento e futuras manutenções.
+
+---
+
+## 💻 Descrição da Implementação da Interface Fluente
+
+A Interface Fluente foi implementada nas principais classes do domínio para facilitar a criação e configuração de objetos com chamadas encadeadas.
+
+### Exemplo na classe `Produto`:
+
+```typescript
+class Produto {
+  private nome: string = "";
+  private preco: number = 0;
+
+  setNome(nome: string): this {
+    this.nome = nome;
+    return this;
+  }
+
+  setPreco(preco: number): this {
+    if (preco < 0) throw new Error("Preço não pode ser negativo");
+    this.preco = preco;
+    return this;
+  }
+
+  detalhes(): string {
+    return `${this.nome} - R$${this.preco.toFixed(2)}`;
+  }
+}
+````
+
+Uso típico:
+
+```typescript
+const produto = new Produto()
+  .setNome("Pizza Margherita")
+  .setPreco(35.90);
+```
+
+### Classe `Categoria`:
+
+Permite adicionar estabelecimentos e configurar nome fluentemente:
+
+```typescript
+class Categoria {
+  private nome: string = "";
+  private estabelecimentos: Estabelecimento[] = [];
+
+  setNome(nome: string): this {
+    this.nome = nome;
+    return this;
+  }
+
+  adicionar(estabelecimento: Estabelecimento): this {
+    this.estabelecimentos.push(estabelecimento);
+    return this;
+  }
+
+  exibirDetalhes(): void {
+    console.log(`Categoria: ${this.nome}`);
+    this.estabelecimentos.forEach(est => est.mostrarDetalhes());
+  }
+}
+```
+
+Uso:
+
+```typescript
+const categoria = new Categoria()
+  .setNome("Restaurantes")
+  .adicionar(estabelecimento1)
+  .adicionar(estabelecimento2);
+```
+
+### Classe `Estabelecimento`:
+
+Configuração fluente para nome, horário e produtos:
+
+```typescript
+abstract class Estabelecimento {
+  protected nome: string = "";
+  protected horario: string = "";
+  protected produtos: Produto[] = [];
+
+  setNome(nome: string): this {
+    this.nome = nome;
+    return this;
+  }
+
+  setHorario(horario: string): this {
+    this.horario = horario;
+    return this;
+  }
+
+  adicionarProduto(produto: Produto): this {
+    this.produtos.push(produto);
+    return this;
+  }
+
+  abstract mostrarDetalhes(): void;
+}
+```
+
+Uso:
+
+```typescript
+const restaurante = new Restaurante()
+  .setNome("Restaurante do Zé")
+  .setHorario("10h às 22h")
+  .adicionarProduto(produto1)
+  .adicionarProduto(produto2);
+```
+
+---
+
+## 🧪 Testes Automatizados
+
+Para garantir a qualidade e estabilidade do código, foram implementados testes unitários utilizando o framework **Jest**, contemplando:
+
+* **Validações de entrada:** assegurando que propriedades inválidas gerem erros (ex: preço negativo em `Produto`).
+* **Testes das interfaces fluentes:** verificando o correto encadeamento e configuração dos objetos.
+* **Testes do padrão State:** verificando transições de estado dos estabelecimentos (Aberto, Fechado).
+* **Testes do padrão Observer:** garantindo que notificações são disparadas e recebidas corretamente.
+* **Testes da Factory:** assegurando que os tipos corretos de estabelecimentos são criados conforme o parâmetro.
+
+### Como executar os testes
+
+Para rodar todos os testes unitários:
+
+```bash
+npm run test
+```
+
+ou diretamente com Jest:
+
+```bash
+npx jest
+```
+
+### Gerando o relatório de cobertura de testes
+
+Para obter um relatório completo da cobertura dos testes, execute:
+
+```bash
+npx jest --coverage
+```
+
+---
+
+### Relatório atual de cobertura
+
+```plaintext
+ PASS  src/tests/Produto.test.ts                                                                                                                                   
+ PASS  src/tests/EstabelecimentoFactory.test.ts
+ PASS  src/tests/Estabelecimento.test.ts
+ PASS  src/tests/CadastrarEstabelecimento.test.ts
+------------------------------|---------|----------|---------|---------|-------------------
+File                          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+------------------------------|---------|----------|---------|---------|-------------------
+All files                     |   80.67 |    93.22 |      50 |   81.35 |                   
+ domain/entities              |   44.44 |       25 |   33.33 |   45.71 |                   
+  Estabelecimento.ts          |   47.36 |      100 |      30 |      50 | 21-47             
+  Produto.ts                  |   41.17 |       25 |    37.5 |   41.17 | 25-47             
+ domain/state                 |      50 |      100 |       0 |      50 |                   
+  EstadoEstabelecimento.ts    |      50 |      100 |       0 |      50 | 13,22              
+ estabelecimentos             |     100 |      100 |     100 |     100 |                  
+  Hamburgueria.ts             |     100 |      100 |     100 |     100 |                  
+  Pizzaria.ts                 |     100 |      100 |     100 |     100 |                  
+  Restaurante.ts              |     100 |      100 |     100 |     100 |                  
+ factories                    |    92.3 |    85.71 |     100 |    92.3 |                  
+  EstabelecimentoFactory.ts   |    92.3 |    85.71 |     100 |    92.3 | 25                
+ utils                        |     100 |      100 |     100 |     100 |                  
+  CadastrarEstabelecimento.ts |     100 |      100 |     100 |     100 |                  
+  CadastrarProduto.ts         |     100 |      100 |     100 |     100 |                  
+------------------------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 4 passed, 4 total
+Tests:       22 passed, 22 total
+Snapshots:   0 total
+Time:        3.552 s
+Ran all test suites.
+```
+
+Esse resultado demonstra uma cobertura significativa, especialmente nos módulos mais críticos, garantindo maior segurança ao realizar alterações e novas implementações.
 
 ---
 
 ## 🏗 Estrutura do Projeto
 
-```
-
+```plaintext
 src/
 ├── app/
-│   └── main.ts               → Ponto de entrada da aplicação.
+│   └── main.ts 
 ├── domain/
-│   ├── entities/            → Entidades principais como Produto, Categoria e Estabelecimento.
-│   │   ├── Produto.ts       → Classe que representa um produto.
-│   │   ├── Categoria.ts     → Define categorias de produtos.
-│   │   └── Estabelecimento.ts → Classe base para estabelecimentos.
+│   ├── entities/
+│   │   ├── Categoria.ts
+│   │   ├── Estabelecimento.ts
+│   │   └── Produto.ts
 │   └── states/
-│       └── EstadoEstabelecimento.ts → Define os estados do estabelecimento (Aberto, Fechado).
-├── estabelecimentos/       → Implementações específicas de tipos de estabelecimentos.
+│       └── EstadoEstabelecimento.ts
+├── estabelecimentos/
 │   ├── Hamburgueria.ts
 │   ├── Pizzaria.ts
 │   └── Restaurante.ts
 ├── factories/
-│   └── EstabelecimentoFactory.ts → Cria objetos de estabelecimentos via Factory.
-├── observers/              → Observadores para notificações e eventos.
-│   ├── Observador.ts           → Interface base de observadores.
-│   ├── ObservadorNotificacaoOferta.ts → Notifica usuários sobre ofertas.
-│   └── NotificadorPreferenciasUsuario.ts → Notifica usuários baseado em preferências.
+│   ├── EstabelecimentoFactory.ts
+│   └── ProdutoFactory.ts
+├── observers/
+│   ├── MensagemConsole.ts
+│   ├── NotificadorConsole.ts
+│   ├── NotificadorPreferenciasUsuario.ts
+│   ├── Observador.ts
+│   └── ObservadorNotificacaoOferta.ts
+├── tests/
+│   ├── CadastrarEstabelecimento.test.ts
+│   ├── Estabelecimento.test.ts
+│   ├── EstabelecimentoFactory.test.ts
+│   └── Produto.test.ts
 ├── utils/
-│   └── helpers.ts             → Funções auxiliares genéricas.
-├── fluent/
-│   └── ProdutoBuilder.ts      → Interface fluente para criação de produtos.
-└── tests/
-└── estabelecimento.test.ts → Testes unitários usando Jest.
-
-````
+│   ├── CadastrarEstabelecimento.ts
+│   └── CadastrarProduto.ts
+└── README.md
+└── CHANGELOG.md
+```
 
 ---
 
-## 🧩 Design Patterns aplicados
+## ⚙️ Como Instalar e Executar o Projeto
 
-### 1. State
-- **Propósito:** Controlar os estados possíveis de um estabelecimento (Aberto, Fechado).
-- **Vantagem:** Permite alterar comportamentos de objetos conforme seu estado, sem ifs complexos.
+### Pré-requisitos
 
-### 2. Observer
-- **Propósito:** Permitir notificações automáticas a usuários quando ocorrem eventos como novas ofertas.
-- **Vantagem:** Desacopla o emissor do evento dos receptores, facilitando extensões.
+* Node.js (versão 16 ou superior recomendada)
+* npm (gerenciador de pacotes)
 
-### 3. Factory
-- **Propósito:** Criar objetos complexos (diferentes tipos de estabelecimentos) sem expor lógica de criação.
-- **Vantagem:** Facilita a expansão de tipos de estabelecimentos sem modificar código existente.
+### Passos para instalação
 
-### 4. Composite
-- **Propósito:** Tratar grupos de objetos e objetos individuais de maneira uniforme.
-- **Vantagem:** Simplifica operações em hierarquias de dados.
+1. Clone o repositório:
 
-### 5. Fluent Interface
-- **Propósito:** Criar objetos com chamadas encadeadas que tornam o código mais legível e fluido.
-- **Vantagem:** Facilita a criação complexa de objetos com menos código e mais clareza.
+```bash
+git https://github.com/GuilhermeMSilveira/TrabalhoDesingPatters.git
+```
+
+2. Navegue até o diretório do projeto:
+
+```bash
+cd TrabalhoDesingPatters
+```
+
+3. Instale as dependências:
+
+```bash
+npm install
+```
+
+### Executando testes
+
+Para garantir que tudo está funcionando, rode os testes automatizados:
+
+```bash
+npm run test
+```
+
+### Gerando relatório de cobertura
+
+Para ver o relatório detalhado da cobertura dos testes:
+
+```bash
+npx jest --coverage
+```
+
+### Rodando o projeto
+
+O projeto contém um arquivo principal `main.ts` para execução. Para rodar em modo de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+ou, se preferir compilar e executar via Node:
+
+```bash
+tsc
+node dist/app/main.js
+```
 
 ---
 
 ## 📊 Diagrama UML
 
-O projeto conta com um diagrama UML detalhado, disponível no Figma:  
+O projeto possui um diagrama UML detalhado hospedado no Figma, que ilustra a arquitetura, os padrões aplicados e as relações entre as classes:
+
 [Diagrama UML FoodNav](https://www.figma.com/board/Sn1sLyC5FzFN6dQBXMy1pR/Projeto-Desing-Patters?node-id=0-1&t=LtihSlvyarY7TSgN-1)
 
 ---
 
-## ⚙️ Como executar o projeto
+## Contato
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/SeuUsuario/ProjetoFoodNav.git
-````
+Projeto desenvolvido por \*\*
 
-2. Instale as dependências:
 
-   ```bash
-   npm install
-   ```
+Seu Nome\*Guilherme Marques Silveira\*.
 
-3. Rode os testes para verificar se está tudo funcionando:
-
-   ```bash
-   npm run test
-   ```
-
-4. Execute a aplicação (exemplo):
-
-   ```bash
-   npm run dev
-   ```
+Para dúvidas, sugestões ou contribuições, envie e-mail para: [guilherme.36421@alunosatc.edu.br]
 
 ---
 
-## 📦 Detalhes das principais classes
-
-### Classe Produto
-
-Representa um produto oferecido por um estabelecimento, com atributos essenciais: nome e preço.
-
-* **Construtor:** Inicializa nome e preço do produto, validando que o preço não seja negativo.
-* **Método `detalhes()`:** Retorna uma string formatada com as informações do produto.
-* **Getters:** Permitem acesso controlado aos atributos `nome` e `preco`.
-
-Esta classe mantém encapsulamento e simplicidade, facilitando a manutenção e extensão do sistema.
-
----
-
-### Classe Categoria
-
-Agrupa estabelecimentos dentro de uma categoria, permitindo a organização e exibição dos mesmos.
-
-* **Construtor:** Inicializa o nome da categoria.
-* **Método `adicionar()`:** Adiciona um estabelecimento à categoria.
-* **Método `exibirDetalhes()`:** Exibe no console o nome da categoria e detalhes dos estabelecimentos associados, incluindo seus produtos.
-
-Utiliza o padrão Composite para estruturar os estabelecimentos em categorias.
-
----
-
-### Classe Estabelecimento
-
-Classe abstrata que representa um estabelecimento comercial, fornecendo a estrutura base para os tipos específicos (como Pizzaria, Hamburgueria, Restaurante).
-
-Principais características:
-
-* Propriedades para nome, horário de funcionamento e lista de produtos.
-* Controle de estado via padrão State (Aberto, Fechado).
-* Métodos para adicionar produtos, exibir produtos, abrir e fechar estabelecimento.
-* Método abstrato `mostrarDetalhes` que deve ser implementado nas subclasses para descrever detalhes específicos.
-* Método para exibir detalhes completos incluindo o estado atual.
-
-Esta classe é fundamental para manter o modelo do domínio organizado, promovendo reutilização e extensibilidade.
-
----
-
-## Módulo `EstadoEstabelecimento`
-
-Este módulo define o padrão **State** para representar os estados de um estabelecimento, possibilitando alterar seu comportamento conforme o estado atual.
-
-### Estrutura
-
-* **EstadoEstabelecimento** (interface): Define o método `exibirEstado` para retorno do estado atual.
-* **Aberto** (classe): Implementa o estado "Aberto".
-* **Fechado** (classe): Implementa o estado "Fechado".
-
-### Uso
-
-Cada estado implementa `exibirEstado()` para retornar uma string representando o status atual do estabelecimento. Isso permite que a classe `Estabelecimento` altere seu comportamento dinamicamente ao mudar de estado.
-
----
-
-# Hamburgueria
-
-A classe `Hamburgueria` é uma especialização da classe abstrata `Estabelecimento`. Ela representa estabelecimentos do tipo hamburgueria e implementa o método `mostrarDetalhes`, que exibe o nome do estabelecimento e seu horário de funcionamento.
-
-## Principais funcionalidades
-
-* Herda propriedades e métodos básicos da classe `Estabelecimento`.
-* Implementa detalhes específicos para a hamburgueria.
-* Permite gerenciamento de produtos e estado (aberto/fechado) via classe base.
-
-## Design e Clean Code
-
-* Código limpo e legível, com nomenclatura clara.
-* Comentários sucintos focados no propósito da classe.
-* Segue o princípio de responsabilidade única (SRP).
-
----
-
-# Pizzaria
-
-A classe `Pizzaria` é uma especialização da classe abstrata `Estabelecimento`. Representa estabelecimentos do tipo pizzaria e implementa o método `mostrarDetalhes`, que exibe o nome do estabelecimento e seu horário de funcionamento.
-
-## Funcionalidades
-
-* Herda os atributos e métodos básicos da classe `Estabelecimento`.
-* Implementa os detalhes específicos da pizzaria.
-* Permite gerenciar produtos e estados via a classe base.
-
-## Considerações de Clean Code
-
-* Código claro e legível.
-* Comentários objetivos, que explicam o propósito da classe.
-* Aplicação do princípio de responsabilidade única (SRP).
-
----
-
-# EstabelecimentoFactory
-
-## Descrição
-
-Classe fábrica responsável por criar instâncias dos diferentes tipos de estabelecimentos: hamburgueria, pizzaria e restaurante.
-
-## Funcionalidades
-
-* Criação centralizada e tipada de estabelecimentos.
-* Facilita extensão para novos tipos no futuro.
-* Validação simples de tipo inválido.
-
-## Estratégia de Refatoração
-
-* Remoção de múltiplos pontos de criação dispersos no código.
-* Simplificação do código com uso de `switch` e tipagem clara.
-* Documentação clara e objetiva das responsabilidades.
-* Adoção de nomenclatura consistente e intuitiva.
-
-## Instalação e Uso
-
-* Importe a fábrica onde precisar criar um estabelecimento.
-* Utilize o método estático `criarEstabelecimento` passando o tipo, nome e horário.
-
-Exemplo:
-
-```typescript
-import EstabelecimentoFactory from './factories/EstabelecimentoFactory';
-
-const hamburgueria = EstabelecimentoFactory.criarEstabelecimento("hamburgueria", "Burger House", "10h às 22h");
-```
-
----
-
-# NotificadorPreferenciasUsuario
-
-## Descrição
-
-Classe responsável por gerenciar uma lista de observadores e notificar sobre novas ofertas de produtos em estabelecimentos.
-
-## Funcionalidades
-
-* Registro dinâmico de observadores interessados em ofertas.
-* Notificação eficiente de todos os observadores registrados.
-* Segue o padrão Observer para comunicação desacoplada.
-
-## Estratégia de Refatoração
-
-* Simplificação de nomes de métodos para melhor legibilidade.
-* Remoção de comentários desnecessários para código mais limpo.
-* Uso de tipagem explícita nos parâmetros para maior clareza.
-* Melhoria na organização interna e padronização do código.
-
-## Instalação e Uso
-
-* Importe a classe onde precisar gerenciar notificações.
-* Use `registrar()` para adicionar observadores.
-* Use `notificarOferta()` para enviar notificações para todos.
-
-Exemplo:
-
-```typescript
-import NotificadorPreferenciasUsuario from './observers/NotificadorPreferenciasUsuario';
-import Observador from './observers/Observador';
-
-const notificador = new NotificadorPreferenciasUsuario();
-const meuObservador: Observador = {
-  atualizar: (nomeProduto, preco, estabelecimento) => {
-    console.log(`Oferta: ${nomeProduto} por R$${preco} em ${estabelecimento}`);
-  }
-};
-
-notificador.registrar(meuObservador);
-notificador.notificarOferta('Hamburguer', 19.99, 'Burger King');
-```
-
----
-
-# Observador
-
-## Descrição
-
-Interface abstrata que define o contrato para classes observadoras que desejam receber notificações de ofertas.
-
-## Funcionalidade
-
-* Define o método `atualizar` que deve ser implementado por todas as classes observadoras.
-* Método `atualizar` recebe informações sobre o produto ofertado, seu preço e o estabelecimento.
-
-## Estratégia de Refatoração
-
-* Adição de documentação clara e objetiva.
-* Manutenção da simplicidade do contrato de interface.
-* Adequação dos nomes dos parâmetros para melhor expressar seu propósito.
-
-## Instalação e Uso
-
-* Extenda a classe `Observador` em sua implementação de observador.
-* Implemente o método `atualizar` para receber notificações.
-
-Exemplo:
-
-```typescript
-import Observador from './observers/Observador';
-
-class MeuObservador extends Observador {
-  atualizar(nomeProduto: string, preco: number, estabelecimento: string): void {
-    console.log(`Nova oferta: ${nomeProduto} por R$${preco} em ${estabelecimento}`);
-  }
-}
-```
-
----
-
-# ObservadorNotificacaoOferta
-
-## Descrição
-
-Implementação concreta da interface `Observador`, responsável por exibir notificações
-
-
-no console sempre que há uma nova oferta.
-
-## Funcionalidade
-
-* Recebe notificações de ofertas.
-* Exibe mensagem formatada no console.
-
-## Estratégia de Refatoração
-
-* Nomes claros para a classe e método.
-* Implementação direta e objetiva.
-* Comentários explicando a finalidade.
-
----
-
-# ProdutoBuilder (Interface fluente)
-
-## Descrição
-
-Classe que utiliza o padrão Fluent Interface para permitir a criação encadeada e segura de objetos Produto.
-
-## Funcionalidade
-
-* Permite configurar nome e preço do produto de forma fluida.
-* Garante a validação do preço (não negativo) no momento da criação.
-* Método `build()` retorna uma instância imutável de Produto.
-
-## Estratégia de Refatoração
-
-* Simplificação da API para facilitar uso.
-* Validação interna para evitar criação inválida.
-* Código autoexplicativo, dispensando comentários excessivos.
-
----
-
-## 📌 Observações Finais
-
-* Todo o código foi refatorado visando **Clean Code**, aplicando os princípios de legibilidade, simplicidade, modularização e responsabilidade única.
-* Foram eliminados comentários redundantes e acrescentados os necessários para entendimento do propósito das classes e métodos.
-* Foi aplicada tipagem forte do TypeScript para evitar erros comuns em tempo de compilação.
-* Todos os padrões de projeto foram implementados para garantir escalabilidade e facilidade na manutenção futura.
-
----
