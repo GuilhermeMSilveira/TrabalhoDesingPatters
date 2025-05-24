@@ -1,8 +1,5 @@
 import Estabelecimento from "./Estabelecimento";
 
-/**
- * Representa uma categoria que agrupa estabelecimentos.
- */
 export default class Categoria {
   private estabelecimentos: Estabelecimento[] = [];
 
@@ -13,21 +10,16 @@ export default class Categoria {
    * @param estabelecimento Estabelecimento a ser adicionado.
    * @returns this (interface fluente)
    */
+  
   public adicionar(estabelecimento: Estabelecimento): this {
     this.estabelecimentos.push(estabelecimento);
     return this;
   }
 
-  /**
-   * Retorna o nome da categoria.
-   */
   public obterNome(): string {
     return this.nome;
   }
 
-  /**
-   * Retorna a lista de estabelecimentos.
-   */
   public obterEstabelecimentos(): Estabelecimento[] {
     return [...this.estabelecimentos];
   }

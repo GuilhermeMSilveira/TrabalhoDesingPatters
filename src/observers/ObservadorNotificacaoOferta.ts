@@ -1,4 +1,3 @@
-// ObservadorNotificacaoOferta.ts
 import { Observador } from "./Observador";
 
 export class ObservadorNotificacaoOferta extends Observador {

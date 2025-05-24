@@ -1,4 +1,3 @@
-// Observador.ts
 import { NotificadorConsole } from "./NotificadorConsole";
 
 export abstract class Observador {

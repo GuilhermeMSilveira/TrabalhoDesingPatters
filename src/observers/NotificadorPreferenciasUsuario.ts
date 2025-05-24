@@ -1,4 +1,3 @@
-// NotificadorPreferenciasUsuario.ts
 import { Observador } from "./Observador";
 
 export class NotificadorPreferenciasUsuario {
