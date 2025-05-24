@@ -8,7 +8,7 @@ describe("Testes dos dados do cadastro de estabelecimentos", () => {
     const nomeInvalido = !nome || nome.trim() === "";
     const horarioVazio = !horario || horario.trim() === "";
     const horarioFormatoInvalido = !/^\d{2}:\d{2}\s*-\s*\d{2}:\d{2}$/.test(horario);
-    const tipoValido = ["hamburgueria", "pizzaria", "restaurante"].includes(tipo);
+    const tipoValido = ["hamburgueria'", "pizzaria", "restaurante"].includes(tipo);
 
     if (nomeInvalido || horarioVazio || horarioFormatoInvalido || !tipoValido) {
       it(`${dados} deve lançar erro`, () => {

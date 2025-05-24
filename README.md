@@ -341,6 +341,109 @@ node dist/app/main.js
 
 ---
 
+Beleza! Pode mandar a documentação que você quer complementar, aí eu te ajudo a montar um passo a passo claro e completo para rodar o ESLint nesse seu projeto TypeScript, usando essa config que você já tem.
+
+Enquanto isso, já deixo uma estrutura básica que pode entrar na sua documentação para rodar e corrigir os problemas com ESLint:
+
+---
+
+# Como rodar o ESLint no projeto
+
+## Passo 1: Instalar dependências (já feito)
+
+Você já tem as dependências de ESLint, TypeScript e plugins instaladas no seu `package.json`. Se ainda não tiver, rode:
+
+dependências de desenvolvimento:
+
+bash
+npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin typescript
+
+2. Inicializar o ESLint no projeto
+Após a instalação, rode o comando para criar o arquivo de configuração .eslintrc.json:
+
+bash
+ npx eslint --init
+Você será guiado por um questionário interativo. Responda da seguinte forma para configurar corretamente o ESLint para TypeScript:
+
+- How would you like to use ESLint?
+Escolha: To check syntax, find problems, and enforce code style
+
+- What type of modules does your project use?
+Escolha: JavaScript modules (import/export)
+
+- Which framework does your project use?
+Escolha: None of these
+
+- Does your project use TypeScript?
+Escolha: Yes
+
+- Where does your code run?
+Escolha conforme o seu ambiente (exemplo: Node)
+
+- How would you like to define a style for your project?
+Escolha: Use a popular style guide
+
+- Which style guide do you want to follow?
+Pode escolher, por exemplo, Airbnb
+
+- What format do you want your config file to be in?
+Escolha: JSON
+
+O comando irá instalar as dependências adicionais necessárias para o estilo escolhido e gerar o arquivo .eslintrc.json.
+
+## Passo 2: Configurar ESLint
+
+Você já possui o arquivo `.eslintrc.json` e `eslint.config.js` com as configurações para TypeScript.
+
+Exemplo básico de `.eslintrc.json`:
+
+```json
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
+  }
+}
+```
+
+## Passo 3: Rodar o ESLint
+
+Para verificar problemas no código, rode:
+
+```bash
+npm run lint
+```
+
+Se quiser corrigir problemas que o ESLint consegue auto-fixar:
+
+```bash
+npm run lint:fix
+```
+
+## Passo 4: Tratando avisos específicos
+
+Se alguma regra está dando aviso (como o uso de `any` nos testes), mas é intencional, você pode:
+
+* Ignorar avisos globais para aquela regra no `.eslintrc.json` (exemplo: está como `"warn"`)
+* Ignorar avisos em uma linha específica do código com:
+
+```ts
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const est = EstabelecimentoFactory.criarEstabelecimento(tipo as any, nome, horario);
+```
 ## 📊 Diagrama UML
 
 O projeto possui um diagrama UML detalhado hospedado no Figma, que ilustra a arquitetura, os padrões aplicados e as relações entre as classes:
@@ -351,10 +454,7 @@ O projeto possui um diagrama UML detalhado hospedado no Figma, que ilustra a arq
 
 ## Contato
 
-Projeto desenvolvido por \*\*
-
-
-Seu Nome\*Guilherme Marques Silveira\*.
+Projeto desenvolvido por \*\Guilherme Marques Silveira*
 
 Para dúvidas, sugestões ou contribuições, envie e-mail para: [guilherme.36421@alunosatc.edu.br]
 
