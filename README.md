@@ -529,7 +529,7 @@ src/
 
 Este projeto foi desenvolvido por:
 
-**Guilherme Marques Silveira**
+**Guilherme Marques Silveira** e
 **Luiz Otavio Milanezi Vieira**
 
 Para dúvidas, sugestões, ou potenciais contribuições, sinta-se à vontade para entrar em contato com Guilherme Silveira via e-mail: \[[guilherme.36421@alunosatc.edu.br](mailto:guilherme.36421@alunosatc.edu.br)]
