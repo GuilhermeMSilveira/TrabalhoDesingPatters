@@ -533,8 +533,3 @@ Este projeto foi desenvolvido por:
 **Luiz Otavio Milanezi Vieira**
 
 Para dúvidas, sugestões, ou potenciais contribuições, sinta-se à vontade para entrar em contato com Guilherme Silveira via e-mail: \[[guilherme.36421@alunosatc.edu.br](mailto:guilherme.36421@alunosatc.edu.br)]
-
-```
-
-Se quiser, posso juntar todas essas seções que você formatou (instalação, ESLint, diagrama, estrutura, etc.) em um único `README.md` pronto para uso no GitHub. Deseja isso?
-```
