@@ -484,7 +484,7 @@ const est = EstabelecimentoFactory.criarEstabelecimento(tipo as any, nome, horar
 ## 📊 Diagrama UML  
 O projeto FoodNav possui um diagrama UML (Unified Modeling Language) detalhado, hospedado no Figma. Este diagrama é uma representação visual clara da arquitetura do sistema, ilustrando os padrões de projeto aplicados, as classes envolvidas e as relações entre elas. É uma ferramenta fundamental para entender a estrutura e o design do FoodNav de forma concisa e padronizada.
 
-Visualizar Diagrama UML FoodNav no Figma: Acessar Diagrama UML FoodNav
+Visualizar Diagrama UML FoodNav no Figma: [Acessar Diagrama UML FoodNav](https://www.figma.com/board/Sn1sLyC5FzFN6dQBXMy1pR/Projeto-Desing-Patters?node-id=0-1&t=LtihSlvyarY7TSgN-1)
 
 ## 🏗 Estrutura do Projeto  
 A seguir, a estrutura de pastas e arquivos do projeto FoodNav, que reflete a modularização e a organização adotadas para garantir a coesão e a manutenibilidade do código:
